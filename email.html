@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Subject Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7fafc; /* Light blue-gray background */
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      color: #333; /* Text color */
+    }
+    h2 {
+      color: #2c3e50; /* Darker header text color */
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      background-color: #3498db; /* Blue background for button */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9; /* Darker blue on hover */
+    }
+    .output {
+      white-space: pre-wrap;
+      background-color: #ecf0f1; /* Light gray for output box */
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .alert {
+      color: red;
+      font-weight: bold;
+    }
+    .info {
+      color: #2d6a4f;
+    }
+    .fake {
+      color: #e74c3c; /* Red for fake/phishing result */
+      font-weight: bold;
+    }
+    .real {
+      color: #27ae60; /* Green for real result */
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Email Subject Checker</h2>
+
+  <p>Enter the subject line of an email below to check if it might be fake or a phishing attempt.</p>
+
+  <textarea id="subjectInput" placeholder="Enter email subject here..."></textarea>
+  <button onclick="checkSubject()">Check Subject</button>
+
+  <div class="output" id="resultBox"></div>
+
+  <script>
+    function checkSubject() {
+      const subject = document.getElementById("subjectInput").value.trim().toLowerCase();
+      const resultBox = document.getElementById("resultBox");
+
+      if (!subject) {
+        resultBox.innerHTML = "<span class='alert'>Please enter an email subject to check.</span>";
+        return;
+      }
+
+      // Common phishing-related keywords/phrases
+      const phishingKeywords = [
+        "urgent", "immediate action required", "account suspended", "confirm your account", "payment failed",
+        "verify your identity", "update your account", "security alert", "suspicious activity", "claim your prize",
+        "prize won", "update required", "you've been hacked", "reward waiting for you", "act now", "final notice"
+      ];
+
+      let isPhishing = false;
+
+      // Check if the subject contains any of the phishing-related keywords
+      phishingKeywords.forEach(keyword => {
+        if (subject.includes(keyword)) {
+          isPhishing = true;
+        }
+      });
+
+      // Display the result based on the check
+      if (isPhishing) {
+        resultBox.innerHTML = `<p class="fake">⚠️ Fake or Phishing Email! Subject contains suspicious words.</p>`;
+      } else {
+        resultBox.innerHTML = `<p class="real">✅ This email seems real. No suspicious words detected in the subject.</p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
+ 
